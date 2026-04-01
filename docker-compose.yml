@@ -13,7 +13,14 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - ./seeder.sql:/docker-entrypoint-initdb.d/02-seeder.sql:ro
 
-  lang:
+  matlab:
+    image: mathworks/matlab:r2024b
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://legacy_user:legacy_password@db:5432/legacy_payments
+    ports:
+      - "8888:8888"
 
 volumes:
   postgres_data:
